@@ -1,16 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout android:layout_height="match_parent"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/relativeLayout"
     android:layout_width="match_parent"
-    android:layout_margin="16dp"
+    android:layout_height="match_parent"
 
-    xmlns:android="http://schemas.android.com/apk/res/android" >
+    android:layout_margin="0dp"
+    android:background="@drawable/bgw">
 
     <ImageView
         android:id="@+id/imageview"
         android:layout_width="200dp"
         android:layout_height="200dp"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true" />
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <Button
         android:id="@+id/choose_image_button"
@@ -18,77 +22,89 @@
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
-        android:text="Choose Image" />
+        android:text="Import Image"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintHorizontal_bias="0.562"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.407" />
 
     <TextView
         android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/choose_image_button"
         android:layout_marginTop="45dp"
-        android:layout_toStartOf="@+id/choose_image_button"
-        android:text="Secret Key -"
+        android:text="Secret Key "
         android:textAlignment="center"
         android:textAllCaps="false"
         android:textAppearance="@style/TextAppearance.AppCompat.Button"
         android:textSize="16sp"
-        android:textStyle="bold" />
+        android:textStyle="bold"
+        app:layout_constraintEnd_toStartOf="@+id/choose_image_button"
+        app:layout_constraintTop_toBottomOf="@+id/choose_image_button" />
 
     <TextView
         android:id="@+id/textView2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/message"
-        android:layout_alignBottom="@+id/message"
-        android:layout_alignStart="@+id/textView"
+        android:layout_marginStart="12dp"
+        android:layout_marginBottom="58dp"
         android:text="Message"
         android:textAlignment="center"
         android:textAllCaps="false"
         android:textAppearance="@style/TextAppearance.AppCompat.Button"
         android:textSize="16sp"
-        android:textStyle="bold" />
+        android:textStyle="bold"
+        app:layout_constraintBaseline_toBaselineOf="@+id/message"
+        app:layout_constraintBottom_toBottomOf="@+id/message"
+        app:layout_constraintStart_toStartOf="@+id/textView" />
 
     <EditText
         android:id="@+id/secret_key"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/textView"
-        android:layout_alignBottom="@+id/textView"
-        android:layout_alignParentEnd="true"
         android:layout_marginEnd="18dp"
         android:ems="10"
         android:hint="Enter secret key"
         android:inputType="textPassword"
-        android:textSize="14sp" />
+        android:textSize="14sp"
+        app:layout_constraintBaseline_toBaselineOf="@+id/textView"
+        app:layout_constraintBottom_toBottomOf="@+id/textView"
+        app:layout_constraintEnd_toEndOf="parent" />
 
     <EditText
         android:id="@+id/message"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/decode_button"
-        android:layout_alignStart="@+id/secret_key"
-        android:layout_marginBottom="20dp"
+        android:layout_marginStart="0dp"
+        android:layout_marginBottom="58dp"
         android:ems="10"
         android:hint="Your message"
         android:inputType="textPersonName"
-        android:textSize="14sp" />
+        android:textSize="14sp"
+        app:layout_constraintBottom_toTopOf="@+id/decode_button"
+        app:layout_constraintStart_toStartOf="@+id/secret_key" />
 
     <Button
         android:id="@+id/decode_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:text="Decode"
+        android:layout_marginBottom="42dp"
+        android:text="Decrypt"
         android:textAlignment="center"
-        android:textSize="14dp" />
+        android:textSize="14dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent" />
 
     <TextView
         android:id="@+id/whether_decoded"
         android:layout_width="70dp"
         android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:textStyle="bold" />
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-</RelativeLayout>
+</android.support.constraint.ConstraintLayout>

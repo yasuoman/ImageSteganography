@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout android:layout_height="match_parent"
     android:layout_width="match_parent"
-    android:layout_margin="16dp"
+    android:layout_margin="0dp"
+    android:background="@drawable/bg"
     xmlns:android="http://schemas.android.com/apk/res/android" >
 
     <Button
@@ -11,14 +12,15 @@
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="125dp"
-        android:text="Encode" />
+        android:text="Encrypt" />
 
     <Button
         android:id="@+id/decode_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignEnd="@+id/encode_button"
         android:layout_below="@+id/encode_button"
-        android:layout_marginTop="65dp"
-        android:text="Decode" />
+        android:layout_alignEnd="@+id/encode_button"
+        android:layout_marginTop="51dp"
+        android:layout_marginEnd="0dp"
+        android:text="Decrypt" />
 </RelativeLayout>
