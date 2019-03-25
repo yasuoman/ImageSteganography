@@ -1,26 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout android:layout_height="match_parent"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/relativeLayout2"
     android:layout_width="match_parent"
+    android:layout_height="match_parent"
     android:layout_margin="0dp"
-    android:background="@drawable/bg"
-    xmlns:android="http://schemas.android.com/apk/res/android" >
+    android:background="@drawable/bg">
 
     <Button
         android:id="@+id/encode_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
         android:layout_marginTop="125dp"
-        android:text="Encrypt" />
+        android:text="Encrypt"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <Button
         android:id="@+id/decode_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/encode_button"
-        android:layout_alignEnd="@+id/encode_button"
         android:layout_marginTop="51dp"
         android:layout_marginEnd="0dp"
-        android:text="Decrypt" />
-</RelativeLayout>
+        android:text="Decrypt"
+        app:layout_constraintEnd_toEndOf="@+id/encode_button"
+        app:layout_constraintTop_toBottomOf="@+id/encode_button" />
+</android.support.constraint.ConstraintLayout>

@@ -12,6 +12,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.ayush.imagesteganographylibrary.Text.AsyncTaskCallback.TextDecodingCallback;
 import com.ayush.imagesteganographylibrary.Text.ImageSteganography;
@@ -19,10 +20,12 @@ import com.ayush.imagesteganographylibrary.Text.TextDecoding;
 
 import java.io.IOException;
 
-public class Decode extends AppCompatActivity implements TextDecodingCallback {
+public class Decode extends AppCompatActivity implements TextDecodingCallback{
 
     private static final int SELECT_PICTURE = 100;
     private static final String TAG = "Decode Class";
+
+
 
     private Uri filepath;
 
@@ -37,6 +40,7 @@ public class Decode extends AppCompatActivity implements TextDecodingCallback {
 
     //ImageSteganography object
     ImageSteganography result;
+    TextDecoding textDecoding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,6 +53,7 @@ public class Decode extends AppCompatActivity implements TextDecodingCallback {
         imageView = (ImageView) findViewById(R.id.imageview);
 
         message = (EditText) findViewById(R.id.message);
+
         secret_key = (EditText) findViewById(R.id.secret_key);
 
         choose_image_button = (Button) findViewById(R.id.choose_image_button);
@@ -70,13 +75,15 @@ public class Decode extends AppCompatActivity implements TextDecodingCallback {
 
                     //Making the ImageSteganography object
                     ImageSteganography imageSteganography = new ImageSteganography(secret_key.getText().toString(),
-                            original_image);
+                            original_image.copy(Bitmap.Config.ARGB_8888, false));
 
                     //Making the TextDecoding object
-                    TextDecoding textDecoding = new TextDecoding(Decode.this, Decode.this);
+                     textDecoding = new TextDecoding(Decode.this, Decode.this);
 
                     //Execute Task
                     textDecoding.execute(imageSteganography);
+
+
                 }
             }
         });
@@ -102,11 +109,14 @@ public class Decode extends AppCompatActivity implements TextDecodingCallback {
             try{
                 original_image = MediaStore.Images.Media.getBitmap(getContentResolver(), filepath);
 
-                imageView.setImageBitmap(original_image);
+
+
+
             }
             catch (IOException e){
                 Log.d(TAG, "Error : " + e);
             }
+            imageView.setImageBitmap(original_image);
         }
 
     }
@@ -123,16 +133,27 @@ public class Decode extends AppCompatActivity implements TextDecodingCallback {
 
         this.result = result;
 
+
+
         if (result != null){
             if (!result.isDecoded())
-                textView.setText("No message found");
+                //textView.setText("No message found");
+            Toast.makeText(Decode.this,"No message found ",Toast.LENGTH_LONG).show();
             else{
                 if (!result.isSecretKeyWrong()){
-                    textView.setText("Decoded");
-                    message.setText("" + result.getMessage());
+
+                 message.setText(result.getMessage());
+
+                    Toast.makeText(Decode.this,"Decrypted ",Toast.LENGTH_LONG).show();
+
+                   // textView.setText("Decrypted");
+
+                   //message.setLongClickable(false);
+                   //message.setTextIsSelectable(false);
                 }
                 else {
-                    textView.setText("Wrong secret key");
+                    //textView.setText("Wrong secret key");
+                    Toast.makeText(Decode.this,"Wrong secret key",Toast.LENGTH_LONG).show();
                 }
             }
         }
@@ -141,5 +162,11 @@ public class Decode extends AppCompatActivity implements TextDecodingCallback {
         }
 
 
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        System.gc();
     }
 }

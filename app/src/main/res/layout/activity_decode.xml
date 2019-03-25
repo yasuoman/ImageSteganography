@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/relativeLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-
+    android:windowSoftInputMode="adjustResize"
     android:layout_margin="0dp"
     android:background="@drawable/bgw">
 
@@ -35,7 +37,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="45dp"
-        android:text="Secret Key "
+        android:text="Password"
         android:textAlignment="center"
         android:textAllCaps="false"
         android:textAppearance="@style/TextAppearance.AppCompat.Button"
@@ -51,11 +53,13 @@
         android:layout_marginStart="12dp"
         android:layout_marginBottom="58dp"
         android:text="Message"
+        android:textIsSelectable="true"
         android:textAlignment="center"
         android:textAllCaps="false"
         android:textAppearance="@style/TextAppearance.AppCompat.Button"
         android:textSize="16sp"
         android:textStyle="bold"
+
         app:layout_constraintBaseline_toBaselineOf="@+id/message"
         app:layout_constraintBottom_toBottomOf="@+id/message"
         app:layout_constraintStart_toStartOf="@+id/textView" />
@@ -66,7 +70,7 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="18dp"
         android:ems="10"
-        android:hint="Enter secret key"
+        android:hint="Enter Your Password"
         android:inputType="textPassword"
         android:textSize="14sp"
         app:layout_constraintBaseline_toBaselineOf="@+id/textView"
@@ -77,14 +81,14 @@
         android:id="@+id/message"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="0dp"
         android:layout_marginBottom="58dp"
+        android:editable="false"
         android:ems="10"
-        android:hint="Your message"
         android:inputType="textPersonName"
         android:textSize="14sp"
         app:layout_constraintBottom_toTopOf="@+id/decode_button"
-        app:layout_constraintStart_toStartOf="@+id/secret_key" />
+        app:layout_constraintStart_toStartOf="@+id/secret_key"
+        tools:ignore="Deprecated" />
 
     <Button
         android:id="@+id/decode_button"

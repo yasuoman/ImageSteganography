@@ -18,6 +18,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.ayush.imagesteganographylibrary.Text.AsyncTaskCallback.TextEncodingCallback;
 import com.ayush.imagesteganographylibrary.Text.ImageSteganography;
@@ -30,14 +31,15 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 import java.util.UUID;
 
 public class Encode extends AppCompatActivity implements TextEncodingCallback {
 
     private static final int SELECT_PICTURE = 100;
     private static final String TAG = "Encode Class";
-
     private Uri filepath;
+
 
     //Bitmaps
     private Bitmap original_image;
@@ -112,7 +114,9 @@ public class Encode extends AppCompatActivity implements TextEncodingCallback {
                 Thread PerformEncoding = new Thread(new Runnable(){
                     @Override
                     public void run() {
-                        saveToInternalStorage(imgToSave,"Encoded");
+                        Random random = new Random();
+                        String filename =String.valueOf(random.nextInt(Integer.MAX_VALUE));
+                        saveToInternalStorage(imgToSave,filename+"Encoded");
                     }
                 });
                 save = new ProgressDialog(Encode.this);
@@ -121,6 +125,7 @@ public class Encode extends AppCompatActivity implements TextEncodingCallback {
                 save.setIndeterminate(false);
                 save.setCancelable(false);
                 save.show();
+                Toast.makeText(Encode.this,"Save Image Successfully",Toast.LENGTH_LONG).show();
                 PerformEncoding.start();
         }
         });
@@ -132,7 +137,7 @@ public class Encode extends AppCompatActivity implements TextEncodingCallback {
         intent.setType("image/*");
         intent.setAction(Intent.ACTION_GET_CONTENT);
         startActivityForResult(Intent.createChooser(intent, "Select Picture"), SELECT_PICTURE);
-    }
+}
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -146,6 +151,15 @@ public class Encode extends AppCompatActivity implements TextEncodingCallback {
                 original_image = MediaStore.Images.Media.getBitmap(getContentResolver(), filepath);
 
                 imageView.setImageBitmap(original_image);
+
+                int height= original_image.getHeight();
+                int width=original_image.getWidth();
+                int max= height*width*3/8;
+               // message.setText(  "under " +max +" letters  ");
+              message.setHint("under " +max +" letters  ");
+              // message.setText("under " +max +" letters  ");
+
+
             }
             catch (IOException e){
                 Log.d(TAG, "Error : " + e);
@@ -170,7 +184,8 @@ public class Encode extends AppCompatActivity implements TextEncodingCallback {
 
         if (result != null && result.isEncoded()){
             encoded_image = result.getEncoded_image();
-            whether_encoded.setText("Encoded");
+            Toast.makeText(Encode.this,"Encrypt Successfully",Toast.LENGTH_LONG).show();
+           //whether_encoded.setText("Encoded");
             imageView.setImageBitmap(encoded_image);
         }
     }
@@ -179,8 +194,15 @@ public class Encode extends AppCompatActivity implements TextEncodingCallback {
         String path = Environment.getExternalStorageDirectory().toString();
         OutputStream fOut = null;
         Integer counter = 0;
+
         File file = new File(Environment.getExternalStoragePublicDirectory(
-                Environment.DIRECTORY_DOWNLOADS), name+".PNG"); // the File to save ,
+                Environment.DIRECTORY_PICTURES), name+".PNG"); // the File to save ,
+        Intent intent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
+        Uri uri = Uri.fromFile(file);
+        intent.setData(uri);
+        Encode.this.sendBroadcast(intent);
+        //iEncode.this.sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, Uri.parse(file.getAbsolutePath())));
+
         try {
             fOut = new FileOutputStream(file);
             bitmapImage.compress(Bitmap.CompressFormat.PNG, 100, fOut); // saving the Bitmap to a file
@@ -197,7 +219,53 @@ public class Encode extends AppCompatActivity implements TextEncodingCallback {
         } catch (IOException e) {
             e.printStackTrace();
         }
+       /*try {
+            MediaStore.Images.Media.insertImage(Encode.this.getContentResolver(),
+                    file.getAbsolutePath(), name,null);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        // 最后通知图库更新
+
+    Encode.this.sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, Uri.parse(file.getAbsolutePath())));*/
+
+
+
     }
+    /*public static void saveImageToGallery(Context context, Bitmap bmp) {
+        // 首先保存图片
+        File appDir = new File(Environment.getExternalStorageDirectory(), "Boohee");
+        if (!appDir.exists()) {
+            appDir.mkdir();
+        }
+        String fileName = System.currentTimeMillis() + ".jpg";
+        File file = new File(appDir, fileName);
+        try {
+            FileOutputStream fos = new FileOutputStream(file);
+            bmp.compress(Bitmap.CompressFormat.JPEG, 100, fos);
+            fos.flush();
+            fos.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        // 其次把文件插入到系统图库
+        try {
+            MediaStore.Images.Media.insertImage(context.getContentResolver(),
+                    file.getAbsolutePath(), fileName, null);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        // 最后通知图库更新
+        context.sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, Uri.parse(file.getAbsolutePath())));
+
+    }*/
+
+
+
+
 
     private  boolean checkAndRequestPermissions() {
         int permissionWriteStorage = ContextCompat.checkSelfPermission(this,
